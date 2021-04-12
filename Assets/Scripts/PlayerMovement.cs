@@ -5,9 +5,15 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour {
     public Rigidbody2D rb;
     public LayerMask groundLayer;
+    public OxygenBar oxygenBar;
+    public HealthBar healthBar;
     public float walkSpeed;
     public float runSpeed;
     public float jumpForce;
+
+    public float walkOxygenUsage;
+    public float jumpOxygenUsage;
+    public float runOxygenUsage;
 
     float horizonatalMovement;
 
@@ -15,7 +21,13 @@ public class PlayerMovement : MonoBehaviour {
         Move();
 
         if (Input.GetButtonDown("Jump") && IsGrounded()) {
+            oxygenBar.usageMultiplier = jumpOxygenUsage;
             Jump();
+        }
+
+        //used for testing -> to be removed
+        if (Input.GetKeyDown(KeyCode.DownArrow)) {
+            ReceiveDamage();
         }
     }
 
@@ -24,8 +36,10 @@ public class PlayerMovement : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.LeftShift)) {
             horizontalMovement *= runSpeed ;
+            oxygenBar.usageMultiplier = runOxygenUsage;
         } else {
             horizontalMovement *= walkSpeed;
+            oxygenBar.usageMultiplier = walkOxygenUsage;
         }
 
         rb.velocity = new Vector2(horizontalMovement, rb.velocity.y); 
@@ -45,5 +59,9 @@ public class PlayerMovement : MonoBehaviour {
 
     void Jump() {
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+    }
+
+    void ReceiveDamage() {
+        healthBar.DecreaseHealth();
     }
 }
