@@ -29,6 +29,10 @@ public class PlayerMovement : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.DownArrow)) {
             ReceiveDamage();
         }
+
+        if (oxygenBar.slider.value == 0) {
+            healthBar.DecreaseHealth(Time.deltaTime);
+        }
     }
 
     void Move() {
@@ -62,6 +66,6 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     void ReceiveDamage() {
-        healthBar.DecreaseHealth();
+        healthBar.DecreaseHealth(10.0f);
     }
 }
