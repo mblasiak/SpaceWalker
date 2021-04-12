@@ -8,8 +8,7 @@ public class OxygenBar : MonoBehaviour {
     public float usageMultiplier;
 
     void Start() {
-        slider.maxValue = 100.0f;
-        slider.value = 100.0f;
+        slider.value = slider.maxValue;
     }
 
     void Update() {

@@ -7,13 +7,12 @@ public class HealthBar : MonoBehaviour {
     public Slider slider;
     
     void Start() {
-        slider.maxValue = 3;
-        slider.value = 3;
+        slider.value = slider.maxValue;
     }
 
-    public void DecreaseHealth() {
-        slider.value -= 1;
-        if (slider.value == 0) {
+    public void DecreaseHealth(float value) {
+        slider.value -= value;
+        if (slider.value <= 0.0f) {
             Debug.Log("You died");
         }
     }
