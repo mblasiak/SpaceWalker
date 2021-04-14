@@ -15,6 +15,8 @@ public class PlayerMovement : MonoBehaviour {
     public float jumpOxygenUsage;
     public float runOxygenUsage;
 
+    public Animator animator;
+
     float horizonatalMovement;
 
     void Update() {
@@ -38,6 +40,8 @@ public class PlayerMovement : MonoBehaviour {
     void Move() {
         float horizontalMovement = Input.GetAxisRaw("Horizontal");
 
+	animator.SetFloat("walkSpeed", Mathf.Abs(horizontalMovement));
+
         if (Input.GetKey(KeyCode.LeftShift)) {
             horizontalMovement *= runSpeed ;
             oxygenBar.usageMultiplier = runOxygenUsage;
@@ -52,7 +56,7 @@ public class PlayerMovement : MonoBehaviour {
     bool IsGrounded() {
         Vector2 position = transform.position;
         Vector2 direction = Vector2.down;
-        float distance = 1.0f;
+        float distance = 3.8f;
         
         RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
         if (hit.collider != null) {
