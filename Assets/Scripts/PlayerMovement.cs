@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour {
     public Rigidbody2D rigidBody;
@@ -29,6 +30,9 @@ public class PlayerMovement : MonoBehaviour {
             Destroy(collider.gameObject);
             collectedStars += 1;
             starCounter.text = "Stars: " + collectedStars;
+        }
+        else if (collider.CompareTag("Portal") && collectedStars == 4) {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 
