@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
     public Rigidbody2D rb;
+    public SpriteRenderer renderer;
     public LayerMask groundLayer;
     public OxygenBar oxygenBar;
     public HealthBar healthBar;
@@ -39,8 +40,9 @@ public class PlayerMovement : MonoBehaviour {
 
     void Move() {
         float horizontalMovement = Input.GetAxisRaw("Horizontal");
+        setSpriteDirection(horizontalMovement);
 
-	animator.SetFloat("walkSpeed", Mathf.Abs(horizontalMovement));
+        animator.SetFloat("walkSpeed", Mathf.Abs(horizontalMovement));
 
         if (Input.GetKey(KeyCode.LeftShift)) {
             horizontalMovement *= runSpeed ;
@@ -71,5 +73,14 @@ public class PlayerMovement : MonoBehaviour {
 
     void ReceiveDamage() {
         healthBar.DecreaseHealth(10.0f);
+    }
+
+    void setSpriteDirection(float horizontalMovement) {
+        if (horizontalMovement < 0) {
+            renderer.flipX = true;
+        }
+        else if (horizontalMovement > 0) {
+            renderer.flipX = false;
+        }
     }
 }
