@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour {
-    public Rigidbody2D rb;
+    public Rigidbody2D rigidBody;
     public SpriteRenderer renderer;
     public LayerMask groundLayer;
     public OxygenBar oxygenBar;
     public HealthBar healthBar;
+    public Text starCounter;
+    
     public float walkSpeed;
     public float runSpeed;
     public float jumpForce;
@@ -19,6 +22,15 @@ public class PlayerMovement : MonoBehaviour {
     public Animator animator;
 
     float horizonatalMovement;
+    private int collectedStars = 0;
+    
+    private void OnTriggerEnter2D(Collider2D collider) {
+        if (collider.CompareTag("Collectable")) {
+            Destroy(collider.gameObject);
+            collectedStars += 1;
+            starCounter.text = "Stars: " + collectedStars;
+        }
+    }
 
     void Update() {
         Move();
@@ -52,7 +64,7 @@ public class PlayerMovement : MonoBehaviour {
             oxygenBar.usageMultiplier = walkOxygenUsage;
         }
 
-        rb.velocity = new Vector2(horizontalMovement, rb.velocity.y); 
+        rigidBody.velocity = new Vector2(horizontalMovement, rigidBody.velocity.y); 
     }
 
     bool IsGrounded() {
@@ -68,7 +80,7 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     void Jump() {
-        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpForce);
     }
 
     void ReceiveDamage() {
