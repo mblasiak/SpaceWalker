@@ -1348,9 +1348,9 @@ MonoBehaviour:
   oxygenBar: {fileID: 1023103837}
   healthBar: {fileID: 206129065}
   starCounter: {fileID: 541513879}
-  walkSpeed: 4
-  runSpeed: 10
-  jumpForce: 7
+  walkSpeed: 6
+  runSpeed: 11
+  jumpForce: 9
   walkOxygenUsage: 1
   jumpOxygenUsage: 1.3
   runOxygenUsage: 1.6
