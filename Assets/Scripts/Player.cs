@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class PlayerMovement : MonoBehaviour {
+public class Player : MonoBehaviour {
     public Rigidbody2D rigidBody;
     public SpriteRenderer renderer;
     public LayerMask groundLayer;
