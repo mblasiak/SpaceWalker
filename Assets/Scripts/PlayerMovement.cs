@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour {
             starCounter.text = "Stars: " + collectedStars;
         }
         else if (collider.CompareTag("Portal") && collectedStars == 4) {
+            savePlayerState();
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
@@ -98,5 +99,11 @@ public class PlayerMovement : MonoBehaviour {
         else if (horizontalMovement > 0) {
             renderer.flipX = false;
         }
+    }
+
+    void savePlayerState() {
+        PlayerPrefs.SetFloat("health", healthBar.getHealthLevel());
+        PlayerPrefs.SetFloat("oxygen", oxygenBar.getOxygenLevel());
+        PlayerPrefs.Save();
     }
 }

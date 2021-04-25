@@ -7,7 +7,11 @@ public class HealthBar : MonoBehaviour {
     public Slider slider;
     
     void Start() {
-        slider.value = slider.maxValue;
+        if (PlayerPrefs.HasKey("health")) {
+			slider.value = PlayerPrefs.GetFloat("health");
+		} else {
+			slider.value = slider.maxValue;
+		}
     }
 
     public void DecreaseHealth(float value) {
@@ -16,4 +20,8 @@ public class HealthBar : MonoBehaviour {
             Debug.Log("You died");
         }
     }
+
+	public float getHealthLevel() {
+		return slider.value;
+	}
 }
