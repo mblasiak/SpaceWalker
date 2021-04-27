@@ -21,7 +21,7 @@ public class OxygenBar : MonoBehaviour {
         }
     }
 
-	public float getOxygenLevel() {
+	public float GetOxygenLevel() {
 		return slider.value;
 	}
 }

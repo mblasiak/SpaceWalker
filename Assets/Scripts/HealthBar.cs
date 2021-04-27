@@ -24,7 +24,7 @@ public class HealthBar : MonoBehaviour {
         }
     }
 
-	public float getHealthLevel() {
+	public float GetHealthLevel() {
 		return slider.value;
 	}
 }
