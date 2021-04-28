@@ -32,7 +32,7 @@ public class Player : MonoBehaviour {
             starCounter.text = "Stars: " + collectedStars;
         }
         else if (collider.CompareTag("Portal") && collectedStars == 4) {
-            savePlayerState();
+            SavePlayerState();
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
@@ -67,8 +67,8 @@ public class Player : MonoBehaviour {
 
     void Move() {
         float horizontalMovement = Input.GetAxisRaw("Horizontal");
-        setSpriteDirection(horizontalMovement);
-	
+        SetSpriteDirection(horizontalMovement);
+
         animator.SetFloat("walkSpeed", Mathf.Abs(horizontalMovement));
 
         if (Input.GetKey(KeyCode.LeftShift))
@@ -108,7 +108,7 @@ public class Player : MonoBehaviour {
         healthBar.DecreaseHealth(10.0f);
     }
 
-    void setSpriteDirection(float horizontalMovement) {
+    void SetSpriteDirection(float horizontalMovement) {
         if (horizontalMovement < 0) {
             renderer.flipX = true;
         }
@@ -117,9 +117,10 @@ public class Player : MonoBehaviour {
         }
     }
 
-    void savePlayerState() {
-        PlayerPrefs.SetFloat("health", healthBar.getHealthLevel());
-        PlayerPrefs.SetFloat("oxygen", oxygenBar.getOxygenLevel());
-        PlayerPrefs.Save();
+    void SavePlayerState() {
+        PlayerPrefs.SetFloat("health", healthBar.GetHealthLevel());
+        PlayerPrefs.SetFloat("oxygen", oxygenBar.GetOxygenLevel());
+		PlayerPrefs.SetInt("level", SceneManager.GetActiveScene().buildIndex + 1);
+		PlayerPrefs.Save();
     }
 }

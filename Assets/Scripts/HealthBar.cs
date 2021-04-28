@@ -18,13 +18,13 @@ public class HealthBar : MonoBehaviour {
     public void DecreaseHealth(float value) {
         slider.value -= value;
         if (slider.value <= 0.0f) {
-			PlayerPrefs.SetInt("failure", 1);
-			PlayerPrefs.Save();
-            SceneManager.LoadScene("End Game Menu");
+			      PlayerPrefs.SetInt("failure", 1);
+			      PlayerPrefs.Save();
+            SceneManager.LoadScene("End Menu");
         }
     }
 
-	public float getHealthLevel() {
+	public float GetHealthLevel() {
 		return slider.value;
 	}
 }
