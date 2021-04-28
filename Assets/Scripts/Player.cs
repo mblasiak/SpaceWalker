@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
+
 
 public class Player : MonoBehaviour {
     public Rigidbody2D rigidBody;
@@ -19,9 +21,7 @@ public class Player : MonoBehaviour {
     public float walkOxygenUsage;
     public float jumpOxygenUsage;
     public float runOxygenUsage;
-
     public Animator animator;
-
     float horizonatalMovement;
     private int collectedStars = 0;
     
@@ -39,11 +39,20 @@ public class Player : MonoBehaviour {
 
     void Update() {
         Move();
-
         if (Input.GetButtonDown("Jump") && IsGrounded()) {
             oxygenBar.usageMultiplier = jumpOxygenUsage;
             Jump();
         }
+
+        if (IsGrounded())
+        {
+            animator.SetBool("isJumping",false);
+        }
+        else
+        {
+            animator.SetBool("isJumping",true);
+        }
+        
 
         //used for testing -> to be removed
         if (Input.GetKeyDown(KeyCode.DownArrow)) {
@@ -54,6 +63,7 @@ public class Player : MonoBehaviour {
             healthBar.DecreaseHealth(Time.deltaTime);
         }
     }
+    
 
     void Move() {
         float horizontalMovement = Input.GetAxisRaw("Horizontal");
@@ -61,8 +71,10 @@ public class Player : MonoBehaviour {
 
         animator.SetFloat("walkSpeed", Mathf.Abs(horizontalMovement));
 
-        if (Input.GetKey(KeyCode.LeftShift)) {
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
             horizontalMovement *= runSpeed ;
+            animator.SetFloat("walkSpeed", Mathf.Abs(horizontalMovement));
             oxygenBar.usageMultiplier = runOxygenUsage;
         } else {
             horizontalMovement *= walkSpeed;
@@ -72,21 +84,25 @@ public class Player : MonoBehaviour {
         rigidBody.velocity = new Vector2(horizontalMovement, rigidBody.velocity.y); 
     }
 
-    bool IsGrounded() {
+    bool IsGrounded()
+    {
         Vector2 position = transform.position;
         Vector2 direction = Vector2.down;
         float distance = 3.8f;
-        
         RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
-        if (hit.collider != null) {
+        if (hit.collider != null)
+        {
             return true;
         }
         return false;
+        
     }
-
-    void Jump() {
+    
+    void Jump()
+    {
         rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpForce);
     }
+ 
 
     void ReceiveDamage() {
         healthBar.DecreaseHealth(10.0f);

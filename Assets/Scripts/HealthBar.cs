@@ -18,8 +18,8 @@ public class HealthBar : MonoBehaviour {
     public void DecreaseHealth(float value) {
         slider.value -= value;
         if (slider.value <= 0.0f) {
-			PlayerPrefs.SetInt("failure", 1);
-			PlayerPrefs.Save();
+			      PlayerPrefs.SetInt("failure", 1);
+			      PlayerPrefs.Save();
             SceneManager.LoadScene("End Menu");
         }
     }
