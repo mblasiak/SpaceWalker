@@ -2,18 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class HealthBar : MonoBehaviour {
     public Slider slider;
     
     void Start() {
-        slider.value = slider.maxValue;
+        if (PlayerPrefs.HasKey("health")) {
+			slider.value = PlayerPrefs.GetFloat("health");
+		} else {
+			slider.value = slider.maxValue;
+		}
     }
 
     public void DecreaseHealth(float value) {
         slider.value -= value;
         if (slider.value <= 0.0f) {
-            Debug.Log("You died");
+			      PlayerPrefs.SetInt("failure", 1);
+			      PlayerPrefs.Save();
+            SceneManager.LoadScene("End Menu");
         }
     }
+
+	public float GetHealthLevel() {
+		return slider.value;
+	}
 }

@@ -8,7 +8,11 @@ public class OxygenBar : MonoBehaviour {
     public float usageMultiplier;
 
     void Start() {
-        slider.value = slider.maxValue;
+        if (PlayerPrefs.HasKey("oxygen")) {
+			slider.value = PlayerPrefs.GetFloat("oxygen");
+		} else {
+			slider.value = slider.maxValue;
+		}
     }
 
     void Update() {
@@ -16,4 +20,8 @@ public class OxygenBar : MonoBehaviour {
             slider.value -= Time.deltaTime * usageMultiplier;
         }
     }
+
+	public float GetOxygenLevel() {
+		return slider.value;
+	}
 }
