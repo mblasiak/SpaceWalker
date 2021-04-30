@@ -12,7 +12,7 @@ public class Player : MonoBehaviour {
     public LayerMask groundLayer;
     public OxygenBar oxygenBar;
     public HealthBar healthBar;
-    public Text starCounter;
+    public StarCounter starCounter;
     
     public float walkSpeed;
     public float runSpeed;
@@ -23,28 +23,13 @@ public class Player : MonoBehaviour {
     public float runOxygenUsage;
     public Animator animator;
     float horizonatalMovement;
-	List<string> enteredColliders = new List<string>();
-    private int collectedStars = 0;
     
     private void OnTriggerEnter2D(Collider2D collider) {
         if (collider.CompareTag("Collectable")) {
             Destroy(collider.gameObject);
-            collectedStars += 1;
-            starCounter.text = collectedStars.ToString();;
-        }
-        else if (collider.CompareTag("Portal")) {
-            enteredColliders.Add(collider.tag);
-        }
-        else if (collider.CompareTag("Portal") && collectedStars == 4) {
-            SavePlayerState();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            starCounter.Increase();
         }
     }
-	private void OnTriggerExit2D(Collider2D collider) {
-		if (collider.CompareTag("Portal")) {
-            enteredColliders.Remove(collider.tag);
-        }
-	}
 
     void Update() {
         Move();
@@ -55,11 +40,6 @@ public class Player : MonoBehaviour {
         } else {
             animator.SetBool("isJumping",true);
         }
-        
-		if (enteredColliders.Contains("Portal") && collectedStars == 4 && Input.GetButtonDown("Teleport")) {
-			SavePlayerState();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-		}
 
         //used for testing -> to be removed
         if (Input.GetKeyDown(KeyCode.DownArrow)) {
@@ -119,12 +99,5 @@ public class Player : MonoBehaviour {
         else if (horizontalMovement > 0) {
             renderer.flipX = false;
         }
-    }
-
-    void SavePlayerState() {
-        PlayerPrefs.SetFloat("health", healthBar.GetHealthLevel());
-        PlayerPrefs.SetFloat("oxygen", oxygenBar.GetOxygenLevel());
-		PlayerPrefs.SetInt("level", SceneManager.GetActiveScene().buildIndex + 1);
-		PlayerPrefs.Save();
     }
 }

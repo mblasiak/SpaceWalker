@@ -671,6 +671,7 @@ GameObject:
   - component: {fileID: 541513878}
   - component: {fileID: 541513880}
   - component: {fileID: 541513879}
+  - component: {fileID: 541513881}
   m_Layer: 5
   m_Name: StarCounter
   m_TagString: Untagged
@@ -739,6 +740,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 541513877}
   m_CullTransparentMesh: 1
+--- !u!114 &541513881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 541513877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebd506cc3bcfa76fe974140229883319, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &612680852
 GameObject:
   m_ObjectHideFlags: 0
@@ -1630,7 +1643,7 @@ MonoBehaviour:
     m_Bits: 64
   oxygenBar: {fileID: 1023103837}
   healthBar: {fileID: 206129065}
-  starCounter: {fileID: 541513879}
+  starCounter: {fileID: 541513881}
   walkSpeed: 6
   runSpeed: 10
   jumpForce: 10
@@ -1810,9 +1823,10 @@ GameObject:
   - component: {fileID: 1355762595}
   - component: {fileID: 1355762594}
   - component: {fileID: 1355762593}
+  - component: {fileID: 1355762596}
   m_Layer: 0
   m_Name: Portal
-  m_TagString: Portal
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1830,8 +1844,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 2}
+  m_Offset: {x: 0.07604694, y: -2.0913057}
+  m_Size: {x: 6.0191326, y: 13.178976}
   m_Direction: 0
 --- !u!212 &1355762594
 SpriteRenderer:
@@ -1898,6 +1912,22 @@ Transform:
   m_Father: {fileID: 1272327771}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1355762596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1355762592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33dc8c878b8130539bcaabeec901e0b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  oxygenBar: {fileID: 1023103837}
+  healthBar: {fileID: 206129065}
+  starCounter: {fileID: 541513881}
+  starsRequired: 4
 --- !u!1 &1375075145
 GameObject:
   m_ObjectHideFlags: 0
