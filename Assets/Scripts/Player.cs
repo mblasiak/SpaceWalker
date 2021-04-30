@@ -48,17 +48,11 @@ public class Player : MonoBehaviour {
 
     void Update() {
         Move();
-        if (Input.GetButtonDown("Jump") && IsGrounded()) {
-            oxygenBar.usageMultiplier = jumpOxygenUsage;
-            Jump();
-        }
+		Jump();
 
-        if (IsGrounded())
-        {
+        if (IsGrounded()) {
             animator.SetBool("isJumping",false);
-        }
-        else
-        {
+        } else {
             animator.SetBool("isJumping",true);
         }
         
@@ -77,7 +71,6 @@ public class Player : MonoBehaviour {
         }
     }
     
-
     void Move() {
         float horizontalMovement = Input.GetAxisRaw("Horizontal");
         SetSpriteDirection(horizontalMovement);
@@ -97,26 +90,24 @@ public class Player : MonoBehaviour {
         rigidBody.velocity = new Vector2(horizontalMovement, rigidBody.velocity.y); 
     }
 
-    bool IsGrounded()
-    {
+    bool IsGrounded() {
         Vector2 position = transform.position;
         Vector2 direction = Vector2.down;
         float distance = 3.8f;
         RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
-        if (hit.collider != null)
-        {
+        if (hit.collider != null) {
             return true;
         }
         return false;
-        
     }
     
-    void Jump()
-    {
-        rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpForce);
+    void Jump() {
+        if (Input.GetButtonDown("Jump") && IsGrounded()) {
+            oxygenBar.usageMultiplier = jumpOxygenUsage;
+            rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpForce);
+        }
     }
  
-
     void ReceiveDamage() {
         healthBar.DecreaseHealth(10.0f);
     }
