@@ -30,7 +30,7 @@ public class Player : MonoBehaviour {
         if (collider.CompareTag("Collectable")) {
             Destroy(collider.gameObject);
             collectedStars += 1;
-            starCounter.text = "Stars: " + collectedStars;
+            starCounter.text = collectedStars.ToString();;
         }
         else if (collider.CompareTag("Portal")) {
             enteredColliders.Add(collider.tag);
