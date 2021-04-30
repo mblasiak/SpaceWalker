@@ -23,6 +23,7 @@ public class Player : MonoBehaviour {
     public float runOxygenUsage;
     public Animator animator;
     float horizonatalMovement;
+	List<string> enteredColliders = new List<string>();
     private int collectedStars = 0;
     
     private void OnTriggerEnter2D(Collider2D collider) {
@@ -31,11 +32,19 @@ public class Player : MonoBehaviour {
             collectedStars += 1;
             starCounter.text = "Stars: " + collectedStars;
         }
+        else if (collider.CompareTag("Portal")) {
+            enteredColliders.Add(collider.tag);
+        }
         else if (collider.CompareTag("Portal") && collectedStars == 4) {
             SavePlayerState();
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
+	private void OnTriggerExit2D(Collider2D collider) {
+		if (collider.CompareTag("Portal")) {
+            enteredColliders.Remove(collider.tag);
+        }
+	}
 
     void Update() {
         Move();
@@ -53,6 +62,10 @@ public class Player : MonoBehaviour {
             animator.SetBool("isJumping",true);
         }
         
+		if (enteredColliders.Contains("Portal") && collectedStars == 4 && Input.GetButtonDown("Teleport")) {
+			SavePlayerState();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+		}
 
         //used for testing -> to be removed
         if (Input.GetKeyDown(KeyCode.DownArrow)) {
