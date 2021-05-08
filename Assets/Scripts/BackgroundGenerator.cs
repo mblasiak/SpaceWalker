@@ -2,26 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class bg : MonoBehaviour
-{
+public class BackgroundGenerator : MonoBehaviour {
     public GameObject[] levels;
     private Camera mainCamera;
     private Vector2 screenBounds;
     public float choke;
     public float scrollSpeed;
     
-
-    // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         mainCamera = gameObject.GetComponent<Camera>();
         screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z));
         foreach(GameObject obj in levels){
-            loadChildObjects(obj);
+            LoadChildObjects(obj);
 	    }
     }
 
-    void loadChildObjects(GameObject obj){
+    void LoadChildObjects(GameObject obj) {
         float objectWidth = obj.GetComponent<SpriteRenderer>().bounds.size.x - choke;
         int childsNeeded = (int)Mathf.Ceil(screenBounds.x * 2 / objectWidth);
         GameObject clone = Instantiate(obj) as GameObject;
@@ -36,13 +32,7 @@ public class bg : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    
-    void repositionChildObjects(GameObject obj){
+    void RepositionChildObjects(GameObject obj) {
         Transform[] children = obj.GetComponentsInChildren<Transform>();
         if(children.Length > 1){
             GameObject firstChild = children[1].gameObject;
@@ -58,9 +48,9 @@ public class bg : MonoBehaviour
         }
     }
     
-    void LateUpdate(){
+    void LateUpdate() {
         foreach(GameObject obj in levels){
-            repositionChildObjects(obj);
+            RepositionChildObjects(obj);
         }
     }
 }

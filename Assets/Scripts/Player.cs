@@ -12,7 +12,7 @@ public class Player : MonoBehaviour {
     public LayerMask groundLayer;
     public OxygenBar oxygenBar;
     public HealthBar healthBar;
-    public Text starCounter;
+    public StarCounter starCounter;
     
     public float walkSpeed;
     public float runSpeed;
@@ -23,36 +23,23 @@ public class Player : MonoBehaviour {
     public float runOxygenUsage;
     public Animator animator;
     float horizonatalMovement;
-    private int collectedStars = 0;
     
     private void OnTriggerEnter2D(Collider2D collider) {
         if (collider.CompareTag("Collectable")) {
             Destroy(collider.gameObject);
-            collectedStars += 1;
-            starCounter.text = "Stars: " + collectedStars;
-        }
-        else if (collider.CompareTag("Portal") && collectedStars == 4) {
-            SavePlayerState();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            starCounter.Increase();
         }
     }
 
     void Update() {
         Move();
-        if (Input.GetButtonDown("Jump") && IsGrounded()) {
-            oxygenBar.usageMultiplier = jumpOxygenUsage;
-            Jump();
-        }
+		Jump();
 
-        if (IsGrounded())
-        {
+        if (IsGrounded()) {
             animator.SetBool("isJumping",false);
-        }
-        else
-        {
+        } else {
             animator.SetBool("isJumping",true);
         }
-        
 
         //used for testing -> to be removed
         if (Input.GetKeyDown(KeyCode.DownArrow)) {
@@ -64,7 +51,6 @@ public class Player : MonoBehaviour {
         }
     }
     
-
     void Move() {
         float horizontalMovement = Input.GetAxisRaw("Horizontal");
         SetSpriteDirection(horizontalMovement);
@@ -84,26 +70,24 @@ public class Player : MonoBehaviour {
         rigidBody.velocity = new Vector2(horizontalMovement, rigidBody.velocity.y); 
     }
 
-    bool IsGrounded()
-    {
+    bool IsGrounded() {
         Vector2 position = transform.position;
         Vector2 direction = Vector2.down;
         float distance = 3.8f;
         RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
-        if (hit.collider != null)
-        {
+        if (hit.collider != null) {
             return true;
         }
         return false;
-        
     }
     
-    void Jump()
-    {
-        rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpForce);
+    void Jump() {
+        if (Input.GetButtonDown("Jump") && IsGrounded()) {
+            oxygenBar.usageMultiplier = jumpOxygenUsage;
+            rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpForce);
+        }
     }
  
-
     void ReceiveDamage() {
         healthBar.DecreaseHealth(10.0f);
     }
@@ -115,12 +99,5 @@ public class Player : MonoBehaviour {
         else if (horizontalMovement > 0) {
             renderer.flipX = false;
         }
-    }
-
-    void SavePlayerState() {
-        PlayerPrefs.SetFloat("health", healthBar.GetHealthLevel());
-        PlayerPrefs.SetFloat("oxygen", oxygenBar.GetOxygenLevel());
-		PlayerPrefs.SetInt("level", SceneManager.GetActiveScene().buildIndex + 1);
-		PlayerPrefs.Save();
     }
 }

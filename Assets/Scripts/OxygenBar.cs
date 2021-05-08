@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class OxygenBar : MonoBehaviour {
     public Slider slider;
+    public float speedIncrease;
     public float usageMultiplier;
 
     void Start() {
@@ -23,5 +24,11 @@ public class OxygenBar : MonoBehaviour {
 
 	public float GetOxygenLevel() {
 		return slider.value;
+	}
+
+	public void IncreaseOxygenLevel() {
+		if (slider.value < slider.maxValue) {
+			slider.value += Time.deltaTime * usageMultiplier * speedIncrease;
+		}
 	}
 }

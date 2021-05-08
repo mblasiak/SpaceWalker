@@ -6,7 +6,6 @@ TagManager:
   tags:
   - Ground
   - Collectable
-  - Portal
   layers:
   - Default
   - TransparentFX
