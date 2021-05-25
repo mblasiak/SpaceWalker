@@ -22,6 +22,7 @@ public class Player : MonoBehaviour {
     public float jumpOxygenUsage;
     public float runOxygenUsage;
     public Animator animator;
+
     float horizonatalMovement;
     
     private void OnTriggerEnter2D(Collider2D collider) {
@@ -46,7 +47,7 @@ public class Player : MonoBehaviour {
             ReceiveDamage();
         }
 
-        if (oxygenBar.slider.value == 0) {
+        if (oxygenBar.GetLevel() == 0) {
             healthBar.DecreaseHealth(Time.deltaTime);
         }
     }

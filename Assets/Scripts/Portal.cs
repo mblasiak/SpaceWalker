@@ -5,8 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class Portal : MonoBehaviour {
-    public OxygenBar oxygenBar;
-    public HealthBar healthBar;
+    public Bar oxygenBar;
+    public Bar healthBar;
     public StarCounter starCounter;
     private bool playerInside = false;
     public int starsRequired;
@@ -29,8 +29,8 @@ public class Portal : MonoBehaviour {
         }
     }
     void SavePlayerState() {
-        PlayerPrefs.SetFloat("health", healthBar.GetHealthLevel());
-        PlayerPrefs.SetFloat("oxygen", oxygenBar.GetOxygenLevel());
+        PlayerPrefs.SetFloat("health", healthBar.GetLevel());
+        PlayerPrefs.SetFloat("oxygen", oxygenBar.GetLevel());
         PlayerPrefs.SetInt("level", SceneManager.GetActiveScene().buildIndex + 1);
         PlayerPrefs.Save();
     }
