@@ -2,22 +2,23 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeroSoundPlayer : MonoBehaviour, SoundPlayer
+public class HeroSoundPlayer : SoundPlayer
 {
     Dictionary<string, AudioClip> clips =
         new Dictionary<string, AudioClip>();
 
     private static AudioSource _audioSource;
 
-    void Start()
+    public HeroSoundPlayer(AudioSource audioSource)
     {
-        clips.Add("jump", Resources.Load<AudioClip>("sounds/player/jump_equipemnt_sound"));
-        _audioSource = GetComponent<AudioSource>();
+        _audioSource = audioSource;
+        clips.Add("jump_eq", Resources.Load<AudioClip>("sounds/player/jump_equipemnt_sound"));
+        clips.Add("jump_fat", Resources.Load<AudioClip>("sounds/player/jump_fat_sound"));
     }
 
     public void playSound(String soundName)
     {
-        _audioSource.PlayOneShot(clips["jump"]);
+        _audioSource.PlayOneShot(clips[soundName]);
     }
 
     public void stopSounds()

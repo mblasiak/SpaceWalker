@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +25,10 @@ public class Player : MonoBehaviour {
     public Animator animator;
 
     float horizonatalMovement;
-    
+    public static String heroSoundPlayerName = "heroPlayer";
+    void Start() {
+        SoundLocator.registerPlayer(heroSoundPlayerName,new HeroSoundPlayer(GetComponent<AudioSource>()));
+    }
     private void OnTriggerEnter2D(Collider2D collider) {
         if (collider.CompareTag("Collectable")) {
             Destroy(collider.gameObject);
@@ -84,6 +88,8 @@ public class Player : MonoBehaviour {
     
     void Jump() {
         if (Input.GetButtonDown("Jump") && IsGrounded()) {
+            SoundLocator.getPlayer(heroSoundPlayerName).playSound("jump_eq");
+            SoundLocator.getPlayer(heroSoundPlayerName).playSound("jump_fat");
             oxygenBar.usageMultiplier = jumpOxygenUsage;
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpForce);
         }
