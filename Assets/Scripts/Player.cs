@@ -88,8 +88,8 @@ public class Player : MonoBehaviour {
     
     void Jump() {
         if (Input.GetButtonDown("Jump") && IsGrounded()) {
-            //SoundLocator.getPlayer(heroSoundPlayerName).playSound("jump_eq");
-            //SoundLocator.getPlayer(heroSoundPlayerName).playSound("jump_fat");
+            SoundLocator.getPlayer(heroSoundPlayerName).playSound("jump_eq");
+            SoundLocator.getPlayer(heroSoundPlayerName).playSound("jump_fat");
             oxygenBar.usageMultiplier = jumpOxygenUsage;
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpForce);
         }
