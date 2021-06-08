@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine.Utility;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -8,6 +9,7 @@ using UnityEngine.Events;
 
 
 public class Player : MonoBehaviour {
+    private static float colectStartDist=2f;
     public Rigidbody2D rigidBody;
     public SpriteRenderer renderer;
     public LayerMask groundLayer;
@@ -30,7 +32,8 @@ public class Player : MonoBehaviour {
         SoundLocator.registerPlayer(heroSoundPlayerName,new HeroSoundPlayer(GetComponent<AudioSource>()));
     }
     private void OnTriggerEnter2D(Collider2D collider) {
-        if (collider.CompareTag("Collectable")) {
+        if (collider.CompareTag("Collectable") &&
+            (collider.transform.position-transform.position).ProjectOntoPlane(Vector3.forward).magnitude<colectStartDist) {
             Destroy(collider.gameObject);
             starCounter.Increase();
         }
@@ -88,8 +91,8 @@ public class Player : MonoBehaviour {
     
     void Jump() {
         if (Input.GetButtonDown("Jump") && IsGrounded()) {
-            //SoundLocator.getPlayer(heroSoundPlayerName).playSound("jump_eq");
-            //SoundLocator.getPlayer(heroSoundPlayerName).playSound("jump_fat");
+            SoundLocator.getPlayer(heroSoundPlayerName).playSound("jump_eq");
+            SoundLocator.getPlayer(heroSoundPlayerName).playSound("jump_fat");
             oxygenBar.usageMultiplier = jumpOxygenUsage;
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpForce);
         }
