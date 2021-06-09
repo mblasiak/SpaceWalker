@@ -12,6 +12,7 @@ public class OxygenBubble : MonoBehaviour
 
     private Collider2D colider;
     private AudioSource _audioSource;
+    private bool ending = false;
 
     Dictionary<string, AudioClip> clips =
         new Dictionary<string, AudioClip>();
@@ -30,7 +31,7 @@ public class OxygenBubble : MonoBehaviour
         if (collider.CompareTag("Player"))
         {
             playerInside = true;
-            if (renderer.color.a > 0)
+            if (renderer.color.a > 0.1f)
             {
                 _audioSource.Play();
             }
@@ -43,7 +44,7 @@ public class OxygenBubble : MonoBehaviour
         {
             playerInside = false;
             _audioSource.Stop();
-            if (renderer.color.a > 0)
+            if (renderer.color.a > 0.1f)
             {
                 _audioSource.PlayOneShot(clips["buble_end"]);
             }
@@ -52,24 +53,37 @@ public class OxygenBubble : MonoBehaviour
 
     void Update()
     {
-        if (playerInside && renderer.color.a > 0)
+        if (playerInside && renderer.color.a > 0.1f)
         {
             Color color = renderer.color;
             color.a -= Time.deltaTime * drainSpeed;
             renderer.color = color;
-            if (renderer.color.a <= 0.1f)
-            {
-                _audioSource.loop = false;
-                _audioSource.Stop();
-                _audioSource.PlayOneShot(clips["buble_end"]);
-            }
-
             oxygenBar.IncreaseOxygenLevel();
             var currentLengthToBottom = renderer.bounds.extents.y;
             transform.localScale = transform.localScale - Vector3.one * (Time.deltaTime * drainSpeed * 1f);
             var verticalOffset = currentLengthToBottom - renderer.bounds.extents.y;
             transform.position = new Vector3(transform.position.x, transform.position.y - verticalOffset,
                 transform.position.z);
+        }
+
+        if (renderer.color.a <= 0.1f & !ending)
+        {
+            _audioSource.Stop();
+            _audioSource.PlayOneShot(clips["buble_no_air"], 0.6f);
+            ending = true;
+            
+        }
+
+        if (ending & _audioSource.isPlaying)
+        {
+            Color color = renderer.color;
+            color.a -= Time.deltaTime * drainSpeed;
+            renderer.color = color;
+        }
+
+        if (renderer.color.a <= 0.1f && !_audioSource.isPlaying)
+        {
+            Object.Destroy(this.gameObject);
         }
     }
 }
