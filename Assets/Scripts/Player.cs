@@ -28,14 +28,17 @@ public class Player : MonoBehaviour {
 
     float horizonatalMovement;
     public static String heroSoundPlayerName = "heroPlayer";
+    private AudioSource starCollectAudioSource;
     void Start() {
         SoundLocator.registerPlayer(heroSoundPlayerName,new HeroSoundPlayer(GetComponent<AudioSource>()));
+        starCollectAudioSource = GetComponents<AudioSource>()[1];
     }
     private void OnTriggerEnter2D(Collider2D collider) {
         if (collider.CompareTag("Collectable") &&
             (collider.transform.position-transform.position).ProjectOntoPlane(Vector3.forward).magnitude<colectStartDist) {
             Destroy(collider.gameObject);
             starCounter.Increase();
+            starCollectAudioSource.Play();
         }
     }
 
