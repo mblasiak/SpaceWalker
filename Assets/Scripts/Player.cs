@@ -50,9 +50,11 @@ public class Player : MonoBehaviour {
         }
 
         //used for testing -> to be removed
-        if (Input.GetKeyDown(KeyCode.DownArrow)) {
+        /*
+		if (Input.GetKeyDown(KeyCode.DownArrow)) {
             ReceiveDamage();
         }
+		*/
 
         if (oxygenBar.GetLevel() == 0) {
             healthBar.DecreaseHealth(Time.deltaTime);
