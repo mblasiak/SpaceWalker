@@ -8,14 +8,20 @@ public class Portal : MonoBehaviour {
     public Bar oxygenBar;
     public Bar healthBar;
     public StarCounter starCounter;
+	public Text teleportNote;
     private bool playerInside = false;
     public int starsRequired;
 
     void Update() {
-        if (playerInside && Input.GetButtonDown("Teleport") && starCounter.GetStars() == starsRequired) {
-            SavePlayerState();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        }
+        if (playerInside && starCounter.GetStars() == starsRequired) {
+			teleportNote.gameObject.SetActive(true);
+			if (Input.GetButtonDown("Teleport")) {
+            	SavePlayerState();
+            	SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+			}
+        } else {
+			teleportNote.gameObject.SetActive(false);
+		}
     }
     private void OnTriggerEnter2D(Collider2D collider) {
         if (collider.CompareTag("Player")) {
